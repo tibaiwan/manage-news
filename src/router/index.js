@@ -1,15 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import display from './routes/display'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
+    ...display,
     {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      path: '/*',
+      redirect: to => {
+        return '/display'
+      }
     }
   ]
 })

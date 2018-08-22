@@ -1,0 +1,17 @@
+<div>
+  <ul>
+  {{#each newsList}}
+    <li>
+      <h3>{{title}}</h3>
+      <div class="news-content">
+        {{content}}
+      </div>
+    </li>
+  {{/each}}
+  </ul>
+</div>
+<style>
+  .news-content {
+    color: green;
+  }
+</style>
