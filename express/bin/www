@@ -5,14 +5,16 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('express:server');
+var debug = require('debug')('myapp:server');
 var http = require('http');
+var port = require('../../mongodb/port.lib.js')();
+var async = require('async');
+var database = require('../../mongodb/database.lib');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
@@ -21,33 +23,18 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val) {
-  var port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
-}
+async.series([
+  // 建立数据库连接
+  database.connect
+], function (err) {
+  if (err) console.error(err)
+  /**
+   * Listen on provided port, on all network interfaces.
+   */
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+})
 
 /**
  * Event listener for HTTP server "error" event.

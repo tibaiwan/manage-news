@@ -1,12 +1,18 @@
 <template>
   <div id="app">
-    <router-view/>
+    <h3 class="title">{{title}}</h3>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data: function () {
+    return {
+      title: 'cms link mongodb'
+    }
+  }
 }
 </script>
 

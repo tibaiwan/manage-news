@@ -1,17 +1,24 @@
-<div>
-  <ul>
-  {{#each newsList}}
-    <li>
-      <h3>{{title}}</h3>
-      <div class="news-content">
-        {{content}}
-      </div>
-    </li>
-  {{/each}}
-  </ul>
-</div>
-<style>
-  .news-content {
-    color: green;
-  }
-</style>
+{{!-- 新闻列表模板 --}}
+<main class="news-container news-list">
+  <div class="sub-title">新闻分类：</div>
+  <section class="category-wrap">
+    <ul>
+      <li><a href="">机床</a></li>
+      <li><a href="">科技</a></li>
+      <li><a href="">政治</a></li>
+      <li><a href="">工业</a></li>
+      <li><a href="">工业</a></li>
+      <li><a href="">工业</a></li>
+      <li><a href="">工业</a></li>
+      <li><a href="">工业</a></li>
+    </ul>
+  </section>
+  <div class="sub-title">新闻一览</div>
+  <section class="newslist-wrap">
+    <ul>
+      {{#each newsList}}
+      <li><a href="/display/detail/{{_id}}">{{title}}</a></li>
+      {{/each}}
+    </ul>
+  </section>
+</main>

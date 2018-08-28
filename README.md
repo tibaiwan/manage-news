@@ -9,8 +9,13 @@
 ## 相关资源链接
 > [Express](http://www.expressjs.com.cn/)  
 > MongoDB [下载](https://www.mongodb.com/download-center#community)  [Windows安装](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)  
-> [Mongoose](https://mongoosejs.com/)    
-> [Handlebars](http://handlebarsjs.com/)
+> [Mongoose](https://mongoosejs.com/)  
+> [Handlebars](http://handlebarsjs.com/)  
+> [Robo3t(mongoDB可视化工具)](https://download.robomongo.org/1.2.1/windows/robo3t-1.2.1-windows-x86_64-3e50a65.exe)
+
+## 项目流程图
+
+![流程图](./docs/images/process.jpg)
 
 ## 项目结构
 <pre>
@@ -59,19 +64,18 @@
 </pre>
 
 ## 项目搭建：
-> 初始化Vue项目及启动：  
+> 初始化Vue项目及启动：
 
-    vue init webpack manage-news  
+    vue init webpack manage-news
     cd manage-news && npm i
     npm run dev
 
 > 启动express应用(自定义服务命令)
 
-    npm run server  
-**Note:**  
-1. express目录下文件由expres应用生成器生成  
+    npm run server
+**Note:**
+1. express目录下文件由expres应用生成器生成
 2. 使用nodemon包做了express应用热更新处理（内容更改不需重启，仍需刷新）
 
-## 开发调试
-> 前端页面：http://localhost:8080  
-> 后端接口：http://localhost:3000
+### TODOLIST
+> 查询列表不需要正文
