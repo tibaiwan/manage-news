@@ -74,6 +74,7 @@ exports.save = function (options, callback) {
 
   var _id = options._id;
   var data = options.data;
+  console.log("_id="+_id)
   if (_id) {
     // update
     async.waterfall([

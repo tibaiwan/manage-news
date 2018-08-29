@@ -182,7 +182,6 @@ exports.create = function (req, res) {
  */
 exports.update = function (req, res) {
   if (req.body.parameters._id) {
-    console.log("进入req 里面==="+req.body.parameters.id);
     req.checkBody({
       'parameters._id': {
         notEmpty: {

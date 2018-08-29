@@ -10,12 +10,14 @@ import VueResource from 'vue-resource'
 
 // 引入element组件化框架
 import ElementUI from 'element-ui'
+import { tinymce } from './components/index'
 // 引入样式文件
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.use(VueResource)
+Vue.use(tinymce)
 
 /* eslint-disable no-new */
 new Vue({

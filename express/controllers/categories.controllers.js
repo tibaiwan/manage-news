@@ -12,6 +12,8 @@ var output = require('./formatOutput.js')
  */
 exports.query = function (req, res) {
   var parameters = req.body;
+  console.log(req)
+  console.log(req.body)
   if (!_.isEmpty(parameters)) {
     categoriesService.one(parameters, function (err, category) {
       if (err) {
@@ -85,42 +87,44 @@ exports.one = function (req, res) {
  * @param {Object} res
  */
 exports.create = function (req, res) {
-  req.checkBody({
-    'parameters.name': {
-      notEmpty: {
-        options: [true],
-        errorMessage: 'name 不能为空'
+  if (req.body.parameters._id) {
+    req.checkBody({
+      'parameters.name': {
+        notEmpty: {
+          options: [true],
+          errorMessage: 'name 不能为空'
+        },
+        isString: { errorMessage: 'name 需为字符串' }
       },
-      isString: { errorMessage: 'name 需为字符串' }
-    },
-    'parameters.isShow': {
-      notEmpty: {
-        options: [true],
-        errorMessage: 'isShow 不能为空'
+      'parameters.isShow': {
+        notEmpty: {
+          options: [true],
+          errorMessage: 'isShow 不能为空'
+        },
+        isBoolean: { errorMessage: 'isShow 需为布尔值' }
       },
-      isBoolean: { errorMessage: 'isShow 需为布尔值' }
-    },
-    'parameters.sort': {
-      optional: true,
-      isNumber: { errorMessage: 'sort 需为数字' }
-    },
-    'parameters.path': {
-      notEmpty: {
-        options: [true],
-        errorMessage: 'path 不能为空'
+      'parameters.sort': {
+        optional: true,
+        isNumber: { errorMessage: 'sort 需为数字' }
       },
-      isString: { errorMessage: 'path 需为布尔值' }
-    },
-    'parameters.keywords': {
-      optional: true,
-      isString: { errorMessage: 'keywords 需为字符串' }
-    },
-    'parameters.description': {
-      optional: true,
-      isString: { errorMessage: 'description 需为字符串' }
-    }
-  });
+      'parameters.path': {
+        notEmpty: {
+          options: [true],
+          errorMessage: 'path 不能为空'
+        },
+        isString: { errorMessage: 'path 需为布尔值' }
+      },
+      'parameters.keywords': {
+        optional: true,
+        isString: { errorMessage: 'keywords 需为字符串' }
+      },
+      'parameters.description': {
+        optional: true,
+        isString: { errorMessage: 'description 需为字符串' }
+      }
+    });
 
+  }
   if (req.validationErrors()) {
     // logger.system().error(__filename, '参数验证失败', req.validationErrors());
     try {
@@ -130,7 +134,6 @@ exports.create = function (req, res) {
       console.log(e)
     }
   }
-
   var data = {
     name: req.body.parameters.name,
     isShow: req.body.parameters.isShow,
@@ -139,16 +142,14 @@ exports.create = function (req, res) {
     keywords: req.body.parameters.keywords,
     description: req.body.parameters.description
   };
-
   categoriesService.save({ data: data }, function (err, category) {
     if (err) {
       // logger[err.type]().error(__filename, err);
       // return res.status(500).end(err);
       output.exception(res, err);
     }
-
-    output.res(res, {_id: category._id});
-    // res.status(200).json({_id: category._id});
+    // output.res(res, {_id: category._id});
+    res.status(200).json({_id: category._id});
   });
 };
 
@@ -163,48 +164,52 @@ exports.create = function (req, res) {
  * @param {Object} res
  */
 exports.update = function (req, res) {
-  req.checkBody({
-    'parameters.id': {
-      notEmpty: {
-        options: [true],
-        errorMessage: '_id 不能为空'
+  if (req.body.parameters._id) {
+    console.log("进入req 里面==="+req.body.parameters._id);
+    req.checkBody({
+      'parameters._id': {
+        notEmpty: {
+          options: [true],
+          errorMessage: '_id 不能为空'
+        },
+        isMongoId: { errorMessage: '_id 需为 mongoId' }
       },
-      isMongoId: { errorMessage: '_id 需为 mongoId' }
-    },
-    'parameters.name': {
-      notEmpty: {
-        options: [true],
-        errorMessage: 'name 不能为空'
+      'parameters.name': {
+        notEmpty: {
+          options: [true],
+          errorMessage: 'name 不能为空'
+        },
+        isString: { errorMessage: 'name 需为字符串' }
       },
-      isString: { errorMessage: 'name 需为字符串' }
-    },
-    'parameters.isShow': {
-      notEmpty: {
-        options: [true],
-        errorMessage: 'isShow 不能为空'
+      'parameters.isShow': {
+        notEmpty: {
+          options: [true],
+          errorMessage: 'isShow 不能为空'
+        },
+        isBoolean: { errorMessage: 'isShow 需为布尔值' }
       },
-      isBoolean: { errorMessage: 'isShow 需为布尔值' }
-    },
-    'parameters.sort': {
-      optional: true,
-      isNumber: { errorMessage: 'sort 需为数字' }
-    },
-    'parameters.path': {
-      notEmpty: {
-        options: [true],
-        errorMessage: 'path 不能为空'
+      'parameters.sort': {
+        optional: true,
+        isNumber: { errorMessage: 'sort 需为数字' }
       },
-      isString: { errorMessage: 'path 需为布尔值' }
-    },
-    'parameters.keywords': {
-      optional: true,
-      isString: { errorMessage: 'keywords 需为字符串' }
-    },
-    'parameters.description': {
-      optional: true,
-      isString: { errorMessage: 'description 需为字符串' }
-    }
-  });
+      'parameters.path': {
+        notEmpty: {
+          options: [true],
+          errorMessage: 'path 不能为空'
+        },
+        isString: { errorMessage: 'path 需为布尔值' }
+      },
+      'parameters.keywords': {
+        optional: true,
+        isString: { errorMessage: 'keywords 需为字符串' }
+      },
+      'parameters.description': {
+        optional: true,
+        isString: { errorMessage: 'description 需为字符串' }
+      }
+    });
+
+  }
 
   if (req.validationErrors()) {
     // logger.system().error(__filename, '参数验证失败', req.validationErrors());
@@ -213,6 +218,9 @@ exports.update = function (req, res) {
   }
 
   var _id = req.body.parameters.id;
+  if (req.body.parameters._id) {
+    _id = req.body.parameters._id;
+  }
 
   var data = {};
 
@@ -231,8 +239,9 @@ exports.update = function (req, res) {
       output.exception(res, err);
     }
 
-    // res.status(204).end();
-    output.res(res, {_id: _id});
+    res.status(204).end();
+    // output.res(res, {_id: _id});
+
   });
 };
 

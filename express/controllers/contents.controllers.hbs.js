@@ -2,6 +2,9 @@
 var contentsService = require('../services/contents.services');
 var output = require('./formatOutput.js')
 // var contentMock = require('../../mongodb/mock/content.mock.js');
+var fs = require("fs");
+var path = require("path");
+let PAGE_PATH = path.resolve(__dirname, '../../static/pages');
 
 /**
  * 单条内容
@@ -10,12 +13,32 @@ var output = require('./formatOutput.js')
  * @param {Object} res
  */
 exports.one = function (req, res) {
+  var file = PAGE_PATH + "/" + req.params._id + '.html';
   contentsService.one({_id: req.params._id }, function (err, result) {
     if (err) {
       return res.status(500).end();
     }
-    // console.log('content one result: ', result)
-    res.render('news-detail', result);
+    // 判断文件是否已经生成
+    fs.exists(file, function (exists) {
+      if (exists) {
+        console.log("页面已存在！");
+        res.sendFile(file, function(err){
+          console.log(err)
+        })
+      } else {
+        res.render('news-detail', result, function(err, html){
+          fs.writeFile(file, html, function(err){
+            if (err) {
+              return console.error(err);
+            }
+            console.log("页面生成成功！");
+            res.sendFile(file, function(err){
+              console.log(err)
+            })
+          })
+        });
+      }
+    });
   });
 };
 

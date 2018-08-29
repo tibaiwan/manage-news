@@ -8,7 +8,7 @@
 
 ## 相关资源链接
 > [Express](http://www.expressjs.com.cn/)  
-> MongoDB [下载](https://www.mongodb.com/download-center#community)  [Windows安装](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)  
+> [MongoDB 下载](https://www.mongodb.com/download-center#community)  [Windows安装](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)  
 > [Mongoose](https://mongoosejs.com/)  
 > [Handlebars](http://handlebarsjs.com/)  
 > [Robo3t(mongoDB可视化工具)](https://download.robomongo.org/1.2.1/windows/robo3t-1.2.1-windows-x86_64-3e50a65.exe)
@@ -79,3 +79,4 @@
 
 ### TODOLIST
 > 查询列表不需要正文
+> 修改新闻时需更新静态文件
