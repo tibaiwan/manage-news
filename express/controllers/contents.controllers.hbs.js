@@ -14,32 +14,31 @@ let PAGE_PATH = path.resolve(__dirname, '../../static/pages');
  */
 exports.one = function (req, res) {
   var file = PAGE_PATH + "/" + req.params._id + '.html';
-  contentsService.one({_id: req.params._id }, function (err, result) {
-    if (err) {
-      return res.status(500).end();
-    }
-    // 判断文件是否已经生成
-    fs.exists(file, function (exists) {
-      if (exists) {
-        console.log("页面已存在！");
-        res.sendFile(file, function(err){
-          console.log(err)
-        })
-      } else {
-        res.render('news-detail', result, function(err, html){
-          fs.writeFile(file, html, function(err){
-            if (err) {
-              return console.error(err);
-            }
-            console.log("页面生成成功！");
-            res.sendFile(file, function(err){
-              console.log(err)
-            })
-          })
-        });
+  // 判断文件是否已经生成
+  var existFlag = fs.existsSync(file);
+  if (existFlag) {
+    console.log("使用已生成的页面！");
+    res.sendFile(file, function(err){
+      console.log(err)
+    })
+  } else {
+    contentsService.one({_id: req.params._id }, function (err, result) {
+      if (err) {
+        return res.status(500).end();
       }
+      res.render('news-detail', result, function(err, html){
+        fs.writeFile(file, html, function(err){
+          if (err) {
+            console.error("err: ", err);
+          }
+          console.log("页面生成成功！");
+          res.sendFile(file, function(err){
+            console.error("err: ", err);
+          })
+        })
+      });
     });
-  });
+  }
 };
 
 /**

@@ -126,10 +126,6 @@ export default {
   },
   methods: {
     init () {
-      console.log(this)
-      console.log(this.that)
-      console.log(this.tinymce)
-      console.log(this.that.tinymce)
       let options = {
         selector: '#' + this.id,
         skin: false,

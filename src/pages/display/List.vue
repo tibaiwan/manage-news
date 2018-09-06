@@ -75,8 +75,7 @@
         </el-form-item>
 
         <el-form-item label="内容" :label-width="formLabelWidth">
-          <!--<el-input v-model="addForm.content" auto-complete="off"></el-input>-->
-          <ise-tinymce v-model="addForm.content"></ise-tinymce>
+          <ise-tinymce id="addTinymce" v-model="addForm.content" auto-complete="off"></ise-tinymce>
         </el-form-item>
 
       </el-form>
@@ -99,8 +98,7 @@
         </el-form-item>
 
         <el-form-item label="内容" :label-width="formLabelWidth">
-          <!--<el-input v-model="modifyForm.content" auto-complete="off"></el-input>-->
-          <ise-tinymce v-model="modifyForm.content" auto-complete="off"></ise-tinymce>
+          <ise-tinymce id="modifyTinymce" v-model="modifyForm.content" auto-complete="off"></ise-tinymce>
         </el-form-item>
 
       </el-form>
@@ -117,7 +115,6 @@
 
 <script>
 import axios from 'axios'
-// import TinymceVue from 'TinymceVue'
 
 export default {
   name: 'list',
@@ -129,17 +126,17 @@ export default {
       modifyFormVisible: false,
       modifyId: '',
       modifyRow: '',
-      /* options: [{
+      options: [{
         value: '',
         label: ''
-      }], */
-      options: [{
+      }],
+      /* options: [{
         value: '5b3c823933f8511c80605d52',
         label: '产品中心'
       }, {
         value: '5b5ff1bcde74cf1bc87d2dac',
         label: '案例中心'
-      }],
+      }], */
       value: '',
       addForm: {
         title: '',
@@ -162,6 +159,10 @@ export default {
       loading: false
     }
   },
+  // 页面初始化进来查询数据
+  mounted: function () {
+    this.getAll()
+  },
   methods: {
     //  获取分类 _id name 放置下拉数据
     getCategories: function () {
@@ -169,14 +170,9 @@ export default {
       that.loading = true
       axios.post('/category/query').then(
         function (response) {
-          console.log(response)
           that.loading = false
-          // Object.assign(this.modifyForm, row)
-          var optionsArr = response.data.responese.contents
-          var optionsArrId = optionsArr.filter(optionsArr => optionsArr._id !== '')
-          var optionsArrName = optionsArr.filter(optionsArr => optionsArr.name !== '')
-          that.options = Object.assign(optionsArrId, optionsArrName)
-          // console.log(that.options)
+          var optionsArr = response.data.responese
+          that.options = optionsArr.map(function (optionsArr) { return {value: optionsArr._id, label: optionsArr.name} })
         },
         function () {
           that.loading = false
@@ -204,6 +200,7 @@ export default {
     },
     add: function () {
       this.addFormVisible = true
+      this.getCategories()
     },
     addSure: function () {
       var that = this
@@ -316,13 +313,9 @@ export default {
       // 通过这种方式也可以实现跳转
       this.$router.push(`/detail/${id}`)
     }
-  },
-
-  // 页面初始化进来查询数据
-  mounted: function () {
-    this.getAll()
-    // this.getCategories()
   }
+
+
 }
 </script>
 
@@ -331,15 +324,20 @@ export default {
     color: #000;
   }
   div.list {
-    width: 100%;
+    width: 90%;
     margin: 0 auto;
+  }
+  .el-dialog{
+    min-width: 40px;
+    width: 80%;
   }
   .addBtn {
     margin: 50px auto 0;
     display: block;
   }
   .addArea .el-input {
-    width: 200px;
+    min-width: 200px;
+    width: 100%;
   }
   .addPicArea .el-input {
     width: 500px;

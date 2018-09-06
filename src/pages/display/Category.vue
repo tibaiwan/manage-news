@@ -291,7 +291,8 @@ export default {
     display: block;
   }
   .addArea .el-input {
-    width: 200px;
+    min-width: 300px;
+    width: 100%;
   }
   .addPicArea .el-input {
     width: 500px;
@@ -300,7 +301,8 @@ export default {
     overflow: hidden;
   }
   .addForm .el-form-item {
-    float: left;
+    display: inline-block;
+    width: 90%;
   }
   .sexArea {
     width: 200px;
